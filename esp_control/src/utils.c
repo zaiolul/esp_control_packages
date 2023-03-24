@@ -48,6 +48,7 @@ int send_to_esp(char* port, char* message, struct blob_buf *buf)
 	int len = send_serial_message(fd, message);
 	len = read_serial_message(fd, message);
 	blobmsg_add_json_from_string(buf, message);
+	close(fd);
 	return 0;
 }
 int list_esp_devices(struct blob_buf *buf)
