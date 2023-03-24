@@ -49,12 +49,12 @@ int list_esp_devices(struct blob_buf *buf)
 		blobmsg_add_string(buf, "Error", "Can't read serial ports");
 		return -1;
 	}
-	
+	void* arr = blobmsg_open_array(buf, "devices");
+
 	for (int i = 0; port_list[i] != NULL; i++) {
 		struct sp_port *port = port_list[i];
 		char *port_name = sp_get_port_name(port);
 		enum sp_transport transport = sp_get_port_transport(port);
-		
 		if (transport == SP_TRANSPORT_USB) {
 			int usb_vid, usb_pid;
 			sp_get_port_usb_vid_pid(port, &usb_vid, &usb_pid);
@@ -75,6 +75,7 @@ int list_esp_devices(struct blob_buf *buf)
 			}
 		}		
 	}
+	blobmsg_close_array(buf, arr);
 	sp_free_port_list(port_list);
 	return connected_devices;
 }
