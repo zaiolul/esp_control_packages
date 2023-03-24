@@ -32,7 +32,7 @@ int send_message(char* port, char* action, int pin, struct blob_buf *buf)
 
 	memset(text, 0, 255);
 	len = read(fd, text, 255);
-	blobmsg_add_string(buf, "Received:", text);
+	blobmsg_add_json_from_string(buf, text);
 	close(fd);
 
 	return 0;
@@ -64,12 +64,17 @@ int list_esp_devices(struct blob_buf *buf)
 				sp_get_port_usb_bus_address(port, &usb_bus, &usb_address);
 
 				char name[100];
+				char vid[30];
+				char pid[30];
+
 				sprintf(name, "ESP Device (%d, %d)", usb_bus, usb_address);
+				sprintf(vid, "%04X", usb_vid);
+				sprintf(pid, "%04X", usb_pid);
 
 				void *tbl = blobmsg_open_table(buf, name);
 				blobmsg_add_string(buf, "port", port_name);
-				blobmsg_add_u32(buf, "vid", usb_vid);
-				blobmsg_add_u32(buf, "pid", usb_pid);
+				blobmsg_add_string(buf, "vid", vid);
+				blobmsg_add_string(buf, "pid", pid);
 				blobmsg_close_table(buf, tbl);
 				connected_devices++;
 			}
