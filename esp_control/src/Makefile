@@ -1,4 +1,4 @@
-BIN:=pin_control
+BIN:=esp_control
 SRCS:=$(wildcard *.c)
 OBJS:=$(SRCS:.c=.o)
 

@@ -17,8 +17,11 @@ int on(struct ubus_context *ctx, struct ubus_object *obj,
 
 	char* port = blobmsg_get_string(tb[CONTROL_PORT]);
 	int pin = blobmsg_get_u32(tb[CONTROL_PIN]);
+
+	char message[255];
+	sprintf(message, "{\"action\": \"%s\", \"pin\": %d}", "on", pin);
 	
-	int ret = send_message(port, "on", pin, &b);
+	send_to_esp(port, message, &b);
 
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
@@ -38,8 +41,10 @@ int off(struct ubus_context *ctx, struct ubus_object *obj,
 
 	char* port = blobmsg_get_string(tb[CONTROL_PORT]);
 	int pin = blobmsg_get_u32(tb[CONTROL_PIN]);
+	char message[255];
+	sprintf(message, "{\"action\": \"%s\", \"pin\": %d}", "off", pin);
 
-	int ret = send_message(port, "off", pin, &b);
+	send_to_esp(port, message, &b);
 
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
@@ -54,7 +59,7 @@ int devices(struct ubus_context *ctx, struct ubus_object *obj,
 
 	int ret = list_esp_devices(&b);
 	if(ret < 0){
-		blobmsg_add_string(&b, "Error:", "No devices found");
+		blobmsg_add_string(&b, "Error", "No devices found");
 	}
 
 	ubus_send_reply(ctx, req, b.head);

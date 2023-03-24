@@ -40,11 +40,11 @@ static struct ubus_method control_methods []= {
 };
 
 /*ubus object type*/
-static struct ubus_object_type control_object_type = UBUS_OBJECT_TYPE("pin_control", control_methods);
+static struct ubus_object_type control_object_type = UBUS_OBJECT_TYPE("esp_control", control_methods);
 
 /*create ubus object*/
 static struct ubus_object control_object = {
-    .name = "pin_control",
+    .name = "esp_control",
     .type = &control_object_type,
     .methods = control_methods,
     .n_methods = ARRAY_SIZE(control_methods),
