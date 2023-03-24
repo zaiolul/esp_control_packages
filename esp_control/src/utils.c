@@ -58,7 +58,7 @@ int list_esp_devices(struct blob_buf *buf)
 	int connected_devices = -1;
 
 	if (result != SP_OK) {
-		blobmsg_add_string(buf, "Error", "Can't read serial ports");
+		//blobmsg_add_string(buf, "Error", "Can't read serial ports");
 		return -1;
 	}
 	void* arr = NULL;
