@@ -42,7 +42,7 @@ int send_to_esp(char* port, char* message, struct blob_buf *buf)
 {
 	int fd = open_port(port);
 	if(fd < 0){
-		blobmsg_add_string(buf, "Error", "Can't open serial port");
+		//blobmsg_add_string(buf, "Error", "Can't open serial port");	
 		return -1;
 	}
 	int len = send_serial_message(fd, message);

@@ -21,8 +21,10 @@ int on(struct ubus_context *ctx, struct ubus_object *obj,
 	char message[255];
 	sprintf(message, "{\"action\": \"%s\", \"pin\": %d}", "on", pin);
 	
-	send_to_esp(port, message, &b);
-
+	int ret = send_to_esp(port, message, &b);
+	if(ret < 0){
+		return UBUS_STATUS_INVALID_ARGUMENT;
+	}
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
 }
@@ -44,7 +46,10 @@ int off(struct ubus_context *ctx, struct ubus_object *obj,
 	char message[255];
 	sprintf(message, "{\"action\": \"%s\", \"pin\": %d}", "off", pin);
 
-	send_to_esp(port, message, &b);
+	int ret = send_to_esp(port, message, &b);
+	if(ret < 0){
+		return UBUS_STATUS_INVALID_ARGUMENT;
+	}
 
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
@@ -68,4 +73,3 @@ int devices(struct ubus_context *ctx, struct ubus_object *obj,
 
 	return 0;
 }
-
