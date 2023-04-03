@@ -20,6 +20,5 @@ int main()
 
 	ubus_free(ctx);
 	uloop_done();
-	
     return 0; 
 }

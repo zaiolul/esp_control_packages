@@ -62,14 +62,23 @@ int devices(struct ubus_context *ctx, struct ubus_object *obj,
     struct blob_buf b = {};
 	blob_buf_init(&b, 0);
 
-	int ret = list_esp_devices(&b);
-	if(ret < 0){
+	struct device devices[DEVICE_CAP];
+
+	int ret = list_esp_devices(devices);
+	
+	if(ret <= 0){
 		//blobmsg_add_string(&b, "Error", "No devices found");
-		return UBUS_STATUS_NOT_FOUND;
+		return UBUS_STATUS_NO_DATA;
 	}
 
+	form_devices_blob_buf(devices, ret, &b);
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
+	fflush(stdout);
 
 	return 0;
 }
+
+
+
+
