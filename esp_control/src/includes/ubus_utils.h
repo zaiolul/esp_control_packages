@@ -18,4 +18,6 @@ int on(struct ubus_context *ctx, struct ubus_object *obj,
 int off(struct ubus_context *ctx, struct ubus_object *obj,
 		      struct ubus_request_data *req, const char *method,
 		      struct blob_attr *msg);
+/*main program logic*/
+int main_func();
 #endif

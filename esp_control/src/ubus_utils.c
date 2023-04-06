@@ -107,6 +107,26 @@ int devices(struct ubus_context *ctx, struct ubus_object *obj,
 
 	return 0;
 }
+int main_func()
+{
+	struct ubus_context *ctx;
+
+	uloop_init();
+
+	ctx = ubus_connect(NULL);
+	if (!ctx) {
+		fprintf(stderr, "Failed to connect to ubus\n");
+		return -1;
+	}
+
+	ubus_add_uloop(ctx);
+	ubus_add_object(ctx, &control_object);
+	uloop_run();
+
+	ubus_free(ctx);
+	uloop_done();
+	return 0;
+}
 
 
 
